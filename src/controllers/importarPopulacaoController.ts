@@ -8,9 +8,8 @@ export const importarPopulacaoController = async (req: Request, res: Response): 
   try {
 
     const senha = req.headers['password'] as string;
-    const senhaCorreta = process.env.SENHA_IMPORTACAO; // Senha correta do .env
+    const senhaCorreta = process.env.SENHA_IMPORTACAO; 
 
-    // Verifique se a senha corresponde
     if (senha !== senhaCorreta) {
       res.status(401).json({ error: 'Acesso negado.' });
       return;
@@ -21,10 +20,8 @@ export const importarPopulacaoController = async (req: Request, res: Response): 
       return;
     }
 
-    // Passa o arquivo para o serviço que processará o upload
     const result = await importarPopulacaoService(req.file.buffer);
 
-    // Retorna a resposta com os dados processados
     res.status(200).json(result);
   } catch (error) {
     const err = error as Error;
