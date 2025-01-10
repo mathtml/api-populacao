@@ -16,37 +16,29 @@ if (!process.env.PORT) {
 const app = express();
 const port = process.env.PORT;
 
-// Middleware para JSON
 app.use(express.json());
 
-// Configuração do Swagger
 const swaggerDocs = swaggerJsDoc(swaggerConfig);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// Configuração do multer para upload de arquivos
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 }, // Limite de 10MB
+  limits: { fileSize: 10 * 1024 * 1024 }, 
 });
 
-// Rotas para upload de arquivo
 app.post('/municipios/importar', upload.single('file'), importarPopulacaoController);
 
-// Rotas para as operações de população
 app.use('/municipios', populacaoRoutes);
 
-// Rota base para verificar o status da API
 app.get('/', (req: Request, res: Response) => {
   res.send('API de População está rodando. Acesse /api-docs para a documentação.');
 });
 
-// Middleware de tratamento de erros
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Erro interno do servidor', error: err.message });
 });
 
-// Iniciar o servidor
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
   console.log(`Documentação disponível em http://localhost:${port}/api-docs`);
