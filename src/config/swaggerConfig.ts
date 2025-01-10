@@ -10,11 +10,11 @@ const swaggerOptions: Options = {
     },
     servers: [
       {
-        url: 'http://3.91.226.109', // Altere para a URL base da sua API
+        url: 'http://3.91.226.109', 
       },
     ],
   },
-  apis: ['./src/routes/*.ts'], // Caminho para as rotas onde estão os endpoints
+  apis: ['./src/routes/*.ts'], 
 };
 
 export default swaggerOptions;
